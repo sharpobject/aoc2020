@@ -1,3 +1,5 @@
+require"class"
+
 Queue = class(function(q)
     q:clear()
   end)

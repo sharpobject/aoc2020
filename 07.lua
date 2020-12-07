@@ -1,6 +1,5 @@
 require"stridx"
 require"util"
-require"class"
 require"queue"
 
 local x = io.read("*l")
