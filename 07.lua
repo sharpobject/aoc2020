@@ -8,18 +8,12 @@ local out_edges = {}
 local p2_edges = {}
 
 while x do
-  x = x:gsub("bag, ", "bags, "):gsub("bag.", "bags"):gsub(",", "")
-  tokens = x:split(" ")
-  src = tokens[1].." "..tokens[2]
-  dsts = {}
+  local tokens = x:split(" ")
+  local src = tokens[1].." "..tokens[2]
   for idx=6,#tokens,4 do
     local dst = tokens[idx].." "..tokens[idx+1]
-    dsts[#dsts+1] = dst
     p2_edges[src] = p2_edges[src] or {}
     p2_edges[src][dst] = tonumber(tokens[idx-1])
-    --print(src, dst, p2_edges[src][dst])
-  end
-  for _,dst in ipairs(dsts) do
     out_edges[dst] = out_edges[dst] or {}
     out_edges[dst][src] = true
   end
@@ -41,7 +35,6 @@ while q:len() > 0 do
     end
   end
 end
-
 print(ret)
 
 ret = -1
