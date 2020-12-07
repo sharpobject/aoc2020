@@ -1,10 +1,8 @@
 local a,n = {},0
-local x = io.read("*l")
 
-while x do
+for x in io.lines() do
   n = n+1
   a[n] = tonumber(x)
-  x = io.read("*l")
 end
 
 local entries = {}

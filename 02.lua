@@ -15,7 +15,7 @@ local function is_valid(min,max,chr,pass)
   return 0
 end
 
-local function is_valid(min,max,chr,pass)
+local function is_valid2(min,max,chr,pass)
   min = tonumber(min)
   max = tonumber(max)
   local n = 0
@@ -25,13 +25,14 @@ end
 
 
 local a,n = {},0
-local x = io.read("*l")
 
 local ret = 0
-while x do
+local ret2 = 0
+for x in io.lines() do
   x = x:gsub('%-', ' '):gsub('%:', '')
   ret = ret + is_valid(unpack(x:split(" ")))
-  x = io.read("*l")
+  ret2 = ret2 + is_valid2(unpack(x:split(" ")))
 end
 
 print(ret)
+print(ret2)

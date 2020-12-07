@@ -2,12 +2,10 @@ require"stridx"
 require"util"
 require"queue"
 
-local x = io.read("*l")
-
 local out_edges = {}
 local p2_edges = {}
 
-while x do
+for x in io.lines() do
   local tokens = x:split(" ")
   local src = tokens[1].." "..tokens[2]
   for idx=6,#tokens,4 do
@@ -17,7 +15,6 @@ while x do
     out_edges[dst] = out_edges[dst] or {}
     out_edges[dst][src] = true
   end
-  x = io.read("*l")
 end
 
 local visited = {}

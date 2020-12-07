@@ -43,8 +43,7 @@ local function handle()
   fields = {}
 end
 
-local x = io.read("*l")
-while x do
+for x in io.lines() do
   if x == "" then
     handle()
   end
@@ -53,7 +52,6 @@ while x do
     if xs[3] then xs[2] = xs[2]..":"..xs[3] end
     fields[xs[1]] = xs[2]
   end
-  x = io.read("*l")
 end
 handle()
 

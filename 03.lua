@@ -1,9 +1,8 @@
 require"stridx"
 require"util"
 
-local x = io.read("*l")
 local idxs, steps, rets = {0,0,0,0,0},{1,3,5,7,.5},{0,0,0,0,0}
-while x do
+for x in io.lines() do
   for i=1,5 do
     local idx = idxs[i]
     if idx % 1 == 0 and x[idx % #x + 1] == "#" then
@@ -11,7 +10,6 @@ while x do
     end
     idxs[i] = idxs[i] + steps[i]
   end
-  x = io.read("*l")
 end
 
 print(rets[2])

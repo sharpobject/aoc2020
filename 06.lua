@@ -1,7 +1,6 @@
 require"stridx"
 require"util"
 
-local x = io.read("*l")
 local ans = {}
 local ret = 0
 local ret2 = 0
@@ -17,7 +16,7 @@ local function process()
   gs = 0
 end
 
-while x do
+for x in io.lines() do
   if x == "" then
     process()
   else
@@ -30,7 +29,6 @@ while x do
       ret = ret + 1
     end
   end
-  x = io.read("*l")
 end
 process()
 

@@ -1,10 +1,9 @@
 require"stridx"
 require"util"
 
-local x = io.read("*l")
 ret = -99
 local seats = {}
-while x do
+for x in io.lines() do
   local myrow = 0
   local rowstep = 64
   for i=1,7 do
@@ -24,7 +23,6 @@ while x do
   local id = myrow * 8 + mycol
   seats[id] = true
   ret = math.max(ret, id)
-  x = io.read("*l")
 end
 
 print(ret)
