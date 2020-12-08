@@ -36,15 +36,12 @@ end
 print(acc)
 
 local winner = #p+1
-while true do
+while pc ~= winner do
   pc,acc = unpack(s:pop())
   p[pc][1] = tr[p[pc][1]]
   step()
   while p[pc] and not visited[pc] do
     step()
   end
-  if pc == winner then
-    print(acc)
-    break
-  end
 end
+print(acc)
