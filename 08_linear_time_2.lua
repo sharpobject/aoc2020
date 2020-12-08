@@ -11,7 +11,6 @@ end
 
 local visited = {}
 local s = Stack()
-local n = 0
 local pc = 1
 local acc = 0
 
