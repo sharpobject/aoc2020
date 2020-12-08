@@ -1,6 +1,5 @@
 require"stridx"
 require"util"
-require"queue"
 
 local out_edges = {}
 local p2_edges = {}

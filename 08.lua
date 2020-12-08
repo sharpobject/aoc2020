@@ -1,6 +1,5 @@
 require"stridx"
 require"util"
-require"queue"
 
 local p = {}
 
@@ -50,7 +49,7 @@ for i=1,#p do
     p[i][1] = tr[op]
     local ok, ret = try()
     if ok then
-      print(ret)
+      print(i,ret)
     end
     p[i][1] = op
   end
