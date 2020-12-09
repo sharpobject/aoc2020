@@ -14,7 +14,7 @@ for x in io.lines() do
   if n > 25 and not inv then
     local ok = false
     for i=n-25,n-1 do
-      if (xs[i] == x/2 and c[x-xs[i]] > 1) or c[x-xs[i]] > 0 then
+      if (xs[i] ~= x/2 and c[x-xs[i]] > 0) or c[x-xs[i]] > 1 then
         ok = true
       end
     end
