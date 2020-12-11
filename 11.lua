@@ -11,7 +11,6 @@ end
 xs[0] = string.rep("L", #xs[1])
 xs[n+1] = string.rep("L", #xs[1])
 
-local orig_xs = deepcpy(xs)
 local dxs = {-1,-1,-1, 0, 1, 1, 1, 0}
 local dys = {-1, 0, 1, 1, 1, 0,-1,-1}
 
