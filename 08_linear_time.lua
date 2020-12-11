@@ -5,13 +5,8 @@ require"queue"
 local p = {}
 
 for x in io.lines() do
-  local tokens = x:split(" ")
-  local op = tokens[1]
-  local operand = tonumber(tokens[2]:sub(2))
-  if tokens[2][1] == "-" then
-    operand = -operand
-  end
-  p[#p+1] = {op, operand}
+  local t = x:split(" ")
+  p[#p+1] = {t[1], tonumber(t[2])}
 end
 
 local visited = {}
