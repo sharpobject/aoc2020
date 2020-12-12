@@ -5,6 +5,7 @@ local dxs = {-1, 0, 1, 0}
 local dys = { 0,-1, 0, 1}
 local facing = 1
 local dir_to_facing = {E=1,S=2,W=3,N=4}
+local mul = {R=1,L=-1}
 
 local x1,y1 = 0,0
 local x,y = -10,1
@@ -23,12 +24,7 @@ for l in io.lines() do
     rx = rx + x * amt
     ry = ry + y * amt
   else
-    amt = amt / 90
-    if dir == "L" then
-      amt = -amt
-    end
-    amt = (amt + 400) % 4
-    for i=1,amt do
+    for i=1,(amt * mul[dir] / 90 + 400) % 4 do
       x, y = -y, x
       facing = facing % 4 + 1
     end
