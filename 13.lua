@@ -6,7 +6,7 @@ local function gcd(a,b)
   return gcd(b, a%b)
 end
 local function lcm(a,b)
-  return a*(b/gcd(a,b))
+  return a/gcd(a,b)*b
 end
 
 local st = tonumber(io.read("*l"))
