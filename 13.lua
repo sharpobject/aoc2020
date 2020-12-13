@@ -2,10 +2,9 @@ require"stridx"
 require"util"
 
 local st = tonumber(io.read("*l"))
-local xs = {}
-local n = 0
-for _,v in ipairs(io.read("*l"):split(",")) do
-  n = n + 1
+local xs,n = {}
+for k,v in ipairs(io.read("*l"):split(",")) do
+  n = k
   xs[n] = tonumber(v)
 end
 
