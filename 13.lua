@@ -22,8 +22,7 @@ for i,bus in ipairs(io.read("*l"):split(",")) do
       best_wait_time = this_wait_time
       best_bus = bus
     end
-    local modulus = (bus*1000-(i-1)) % bus
-    while ts % bus ~= modulus do
+    while (ts+i-1) % bus ~= 0 do
       ts = ts + step
     end
     step = lcm(step, bus)
