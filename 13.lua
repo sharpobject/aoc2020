@@ -1,18 +1,12 @@
 require"stridx"
 require"util"
 
-local xs = {}
-local n = 0
-
 local st = tonumber(io.read("*l"))
-local ls = io.read("*l"):split(",")
 local xs = {}
 local n = 0
-for i=1,#ls do
+for _,v in ipairs(io.read("*l"):split(",")) do
   n = n + 1
-  if ls[i] ~= "x" then
-    xs[n] = tonumber(ls[i])
-  end
+  xs[n] = tonumber(v)
 end
 
 local function gcd(a,b)
