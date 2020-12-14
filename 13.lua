@@ -17,7 +17,7 @@ local step = 1
 for i,bus in ipairs(io.read("*l"):split(",")) do
   bus = tonumber(bus)
   if bus then
-    local this_wait_time = (-st) % bus
+    local this_wait_time = -st % bus
     if this_wait_time < best_wait_time then
       best_wait_time = this_wait_time
       best_bus = bus
