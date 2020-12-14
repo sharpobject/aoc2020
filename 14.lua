@@ -1,9 +1,7 @@
 require"stridx"
 require"util"
 
-local mem = {}
-local mem2 = {}
-local mask = {}
+local mem, mem2, mask = {}, {}, {}
 
 local function set(addr, to_float, val, bit)
   if bit == 0 then
@@ -21,9 +19,8 @@ for x in io.lines() do
     mask["1"] = 0
     mask["0"] = 0
     mask.X = 0
-    x = x:sub(8)
     local bit = 1<<35
-    for i=1,36 do
+    for i=8,43 do
       mask[x[i]] = mask[x[i]] | bit
       bit = bit >> 1
     end
