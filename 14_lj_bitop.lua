@@ -6,7 +6,7 @@ local bnot, lshift, rshift = bit.bnot, bit.lshift, bit.rshift
 
 local mem, mem2, mask1, mask2 = {}, {}, {}, {}
 
-local int_max = 2^31
+local int_max = 2^18
 
 local function set(addr1, addr2, float1, float2, val, bit1, bit2)
   if bit1 ~= 0 then
@@ -34,13 +34,13 @@ for x in io.lines() do
     mask2["1"] = 0
     mask2["0"] = 0
     mask2.X = 0
-    local bit = lshift(1, 4)
-    for i=8,12 do
+    local bit = lshift(1, 17)
+    for i=8,25 do
       mask1[x[i]] = bor(mask1[x[i]], bit)
       bit = rshift(bit, 1)
     end
-    bit = lshift(1, 30)
-    for i=13,43 do
+    bit = lshift(1, 17)
+    for i=26,43 do
       mask2[x[i]] = bor(mask2[x[i]], bit)
       bit = rshift(bit, 1)
     end
@@ -55,7 +55,7 @@ for x in io.lines() do
     mem[x[1]] = bor(band(val_hi, bnot(mask1["0"])), mask1["1"]) * int_max +
                 bor(band(val_lo, bnot(mask2["0"])), mask2["1"])
     set(bor(addr_hi, mask1["1"]), bor(addr_lo, mask2["1"]),
-        mask1.X, mask2.X, x[2], lshift(1,4), lshift(1,30))
+        mask1.X, mask2.X, x[2], lshift(1,17), lshift(1,17))
   end
 end
 
