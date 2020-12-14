@@ -47,9 +47,9 @@ for x in io.lines() do
   else
     x = map(tonumber,x:sub(5):gsub("%]",""):gsub("%=",""):split(" "))
     local addr_lo = x[1] % int_max
-    local addr_hi = x[1] - addr_lo
+    local addr_hi = (x[1] - addr_lo) / int_max
     local val_lo = x[2] % int_max
-    local val_hi = x[2] - val_lo
+    local val_hi = (x[2] - val_lo) / int_max
     --print(x[1], bor(band(val_hi, bnot(mask1["0"])), mask1["1"]) * int_max +
     --            bor(band(val_lo, bnot(mask2["0"])), mask2["1"]))
     mem[x[1]] = bor(band(val_hi, bnot(mask1["0"])), mask1["1"]) * int_max +
