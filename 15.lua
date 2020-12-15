@@ -1,16 +1,14 @@
 require"stridx"
 require"util"
 
-local xs = {}
+local xs = {[0]=""}
 local num_to_t = {}
 local n = 0
 
 for _,x in ipairs(map(tonumber, io.read("*l"):split(","))) do
   n = n + 1
   xs[n] = x
-  if n > 1 then
-    num_to_t[xs[n-1]] = n-1
-  end
+  num_to_t[xs[n-1]] = n-1
 end
 
 while n < 30000000 do
