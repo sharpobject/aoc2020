@@ -14,25 +14,27 @@ for x in io.lines() do
   end
 end
 
-local dxs, dys, dzs, dws = {}, {}, {}, {}
-for dy=-1,1 do
-  for dz=-1,1 do
-    for dw=-1,1 do
-      if dy ~= 0 or dz ~= 0 or dw ~= 0 then
-        dxs[#dxs+1] = 0
-        dys[#dys+1] = dy
-        dzs[#dzs+1] = dz
-        dws[#dws+1] = dw
+local orig_xs = xs
+
+for qq=0,1 do
+  xs = orig_xs
+  local dxs, dys, dzs, dws = {}, {}, {}, {}
+  for dx=-qq,qq do
+    for dy=-1,1 do
+      for dz=-1,1 do
+        for dw=-1,1 do
+          if dx ~= 0 or dy ~= 0 or dz ~= 0 or dw ~= 0 then
+            dxs[#dxs+1] = dx
+            dys[#dys+1] = dy
+            dzs[#dzs+1] = dz
+            dws[#dws+1] = dw
+          end
+        end
       end
     end
   end
-end
-
-local orig_xs = xs
-
-for qq=1,2 do
-  xs = orig_xs
   local nds = #dws
+
   for qqq=1,6 do
     nxs = {}
     for i,a in pairs(xs) do
@@ -58,18 +60,11 @@ for qq=1,2 do
       for j,b in pairs(a) do
         for k,c in pairs(b) do
           for l,v in pairs(c) do
-            if xs[i] and xs[i][j] and xs[i][j][k] and xs[i][j][k][l] then
-              if v == 2 or v == 3 then
-                c[l] = true
-              else
-                c[l] = nil
-              end
+            if (xs[i] and xs[i][j] and xs[i][j][k] and xs[i][j][k][l] and v == 2)
+                  or v == 3 then
+              c[l] = true
             else
-              if v == 3 then
-                c[l] = true
-              else
-                c[l] = nil
-              end
+              c[l] = nil
             end
           end
         end
@@ -89,20 +84,4 @@ for qq=1,2 do
     end
   end
   print(ret)
-
-  dxs, dys, dzs, dws = {}, {}, {}, {}
-  for dx=-1,1 do
-    for dy=-1,1 do
-      for dz=-1,1 do
-        for dw=-1,1 do
-          if dx ~= 0 or dy ~= 0 or dz ~= 0 or dw ~= 0 then
-            dxs[#dxs+1] = dx
-            dys[#dys+1] = dy
-            dzs[#dzs+1] = dz
-            dws[#dws+1] = dw
-          end
-        end
-      end
-    end
-  end
 end
