@@ -60,10 +60,8 @@ for qq=0,1 do
       for j,b in pairs(a) do
         for k,c in pairs(b) do
           for l,v in pairs(c) do
-            if (xs[i] and xs[i][j] and xs[i][j][k] and xs[i][j][k][l] and v == 2)
-                  or v == 3 then
-              c[l] = true
-            else
+            if not ((xs[i] and xs[i][j] and xs[i][j][k] and xs[i][j][k][l] and v == 2)
+                  or v == 3) then
               c[l] = nil
             end
           end
