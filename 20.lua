@@ -144,8 +144,7 @@ local nessie = {
 }
 local nlen = #nessie[1]
 
-local ret2 = 0
-for _,sym in pairs(get_syms(strs)) do
+print(npounds - math.max(unpack(map(function(sym)
   local visited = {}
   local this_count = 0
   for i=1,#sym-2 do
@@ -171,7 +170,5 @@ for _,sym in pairs(get_syms(strs)) do
       ::no_sighting::
     end
   end
-  ret2 = math.max(ret2, this_count)
-end
-
-print(npounds - ret2)
+  return this_count
+end, get_syms(strs)))))
