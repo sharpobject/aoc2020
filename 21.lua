@@ -51,18 +51,13 @@ for _,ins in pairs(inss) do
 end
 print(ret)
 
-print(#guilty_ins)
-print(#alss)
-
 local cm, visited = {}, {}
 local function find_match(where)
   if where == nil then
     return true
   end
   for match,_ in pairs(al_to_ins[where]) do
-    --print("FUCK ",match)
     if not visited[match] then
-      --print(where, match)
       visited[match] = true
       if find_match(cm[match]) then
         cm[match] = where
@@ -74,7 +69,6 @@ local function find_match(where)
 end
 
 for al,_ in pairs(al_to_ins) do
-  --print(al)
   visited = {}
   find_match(al)
 end

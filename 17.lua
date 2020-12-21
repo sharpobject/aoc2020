@@ -1,85 +1,100 @@
 require"stridx"
 require"util"
 
-local xs = {{{}}}
+local xs = {}
 local n = 0
 
 for x in io.lines() do
   n = n + 1
-  xs[1][1][n] = {}
+  xs[n] = {}
   for i=1,#x do
     if x[i] == "#" then
-      xs[1][1][n][i] = true
+      xs[n][i] = true
     end
   end
 end
 
 local orig_xs = xs
 
-for qq=0,1 do
+for ndims = 2,10 do
   xs = orig_xs
-  local dxs, dys, dzs, dws = {}, {}, {}, {}
-  for dx=-qq,qq do
-    for dy=-1,1 do
-      for dz=-1,1 do
-        for dw=-1,1 do
-          if dx ~= 0 or dy ~= 0 or dz ~= 0 or dw ~= 0 then
-            dxs[#dxs+1] = dx
-            dys[#dys+1] = dy
-            dzs[#dzs+1] = dz
-            dws[#dws+1] = dw
-          end
-        end
+  for i=3,ndims do
+    xs = {xs}
+  end
+
+  local function traverse(curr, idxs, level, cb)
+    if level > ndims then
+      return cb(curr, idxs)
+    end
+    for k,v in pairs(curr) do
+      idxs[level] = k
+      if level == ndims then
+        cb(curr, k, idxs)
+      else
+        traverse(v, idxs, level+1, cb)
       end
     end
   end
-  local nds = #dws
 
+  local function foradj(curr, idxs, level, all_zero, cb)
+    for i=-1,1 do
+      local this_all_zero = all_zero and i==0
+      local idx = idxs[level]+i
+      if level == ndims then
+        if not this_all_zero then
+          cb(curr, idx)
+        end
+      else
+        curr[idx] = curr[idx] or {}
+        foradj(curr[idx], idxs, level+1, this_all_zero, cb)
+      end
+    end
+  end
+
+  local function deepget(xs, idxs)
+    for i=1,ndims do
+      if not xs then return nil end
+      xs = xs[idxs[i]]
+    end
+    return xs
+  end
+
+  local nxs
+  local idxs, idxs2 = {}
   for qqq=1,6 do
     nxs = {}
-    for i,a in pairs(xs) do
-      nxs[i] = nxs[i] or {}
-      for j,b in pairs(a) do
-        nxs[i][j] = nxs[i][j] or {}
-        for k,c in pairs(b) do
-          nxs[i][j][k] = nxs[i][j][k] or {}
-          for l,_ in pairs(c) do
-            nxs[i][j][k][l] = nxs[i][j][k][l] or 0
-            for m=1,nds do
-              local ni, nj, nk, nl = i+dxs[m], j+dys[m], k+dzs[m], l+dws[m]
-              nxs[ni] = nxs[ni] or {}
-              nxs[ni][nj] = nxs[ni][nj] or {}
-              nxs[ni][nj][nk] = nxs[ni][nj][nk] or {}
-              nxs[ni][nj][nk][nl] = (nxs[ni][nj][nk][nl] or 0) + 1
-            end
-          end
-        end
+    traverse(xs, idxs, 1, function(_, _, idxs)
+      foradj(nxs, idxs, 1, true, function(t,k)
+        t[k] = (t[k] or 0) + 1
+      end)
+    end)
+
+    traverse(nxs, idxs, 1, function(curr, k, idxs)
+      if not ((deepget(xs, idxs) and curr[k] == 2) or curr[k] == 3) then
+        curr[k] = nil
       end
-    end
-    for i,a in pairs(nxs) do
-      for j,b in pairs(a) do
-        for k,c in pairs(b) do
-          for l,v in pairs(c) do
-            if not ((xs[i] and xs[i][j] and xs[i][j][k] and xs[i][j][k][l] and v == 2)
-                  or v == 3) then
-              c[l] = nil
-            end
-          end
-        end
-      end
-    end
+    end)
+
     xs = nxs
+    --[[local ret = 0
+    local map = {}
+    for i=1,40 do
+      map[i] = {}
+      for j=1,40 do
+        map[i][j] = "."
+      end
+    end
+    traverse(xs, idxs, 1, function(_,_,idxs)
+      map[idxs[1]+20][idxs[2]+20] = "#"
+      ret = ret + 1
+    end)
+    for i=1,40 do
+      print(table.concat(map[i]))
+    end
+    print(ret)--]]
   end
 
   local ret = 0
-  for i,a in pairs(nxs) do
-    for j,b in pairs(a) do
-      for k,c in pairs(b) do
-        for k,c in pairs(c) do
-          ret = ret + 1
-        end
-      end
-    end
-  end
-  print(ret)
+  traverse(xs, idxs, 1, function() ret = ret + 1 end)
+  print(ndims, ret)
 end

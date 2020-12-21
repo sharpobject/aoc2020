@@ -9,9 +9,9 @@ for x in io.lines() do
   n = n + 1
   x = 0+x
   xs[n] = x
-  if n > 25 and not inv then
+  if n > 2 and not inv then
     local ok = false
-    for i=n-25,n-1 do
+    for i=n-2,n-1 do
       for j=i+1,n-1 do
         if xs[i] + xs[j] == x then
           ok = true

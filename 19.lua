@@ -49,10 +49,9 @@ end
 local old_rules = deepcpy(rules)
 
 local rule = re.new("^(?:"..stringify(0)..")$")
--- new rule 0: match any number of 42, then 0 or 1 11, then a smaller number of 31
+-- new rule 0: match any number of 42, then a smaller number of 31
 -- at least 2x 42 and 1x 31!
 local rule42 = re.new("^(?:"..stringify(42)..")$")
-local rule11 = re.new("^(?:"..stringify(11)..")?$")
 local rule31 = re.new("^(?:"..stringify(31)..")$")
 
 local dp42, dp31 = {}, {}
@@ -90,32 +89,70 @@ local function matches_31(s, lo, hi)
   return best
 end
 
-local function match(s)
+local function match2(s)
   dp42, dp31 = {}, {}
   for i=1,#s+1 do
-    for j=i,#s+1 do
-      local a = matches_42(s,1,i)
-      local ok = re.match(s:sub(i,j-1), rule11)
-      local b = matches_31(s,j,#s+1)
-      if ok and a > b and b > 0 then
-        return true
-      end
+    local a = matches_42(s,1,i)
+    local b = matches_31(s,i,#s+1)
+    if a > b and b > 0 then
+      return true
     end
   end
   return false
 end
 
+local mdp = {}
+local function match(s, ridx, lo, hi)
+  mdp[ridx] = mdp[ridx] or {}
+  mdp[ridx][lo] = mdp[ridx][lo] or {}
+  if not mdp[ridx][lo][hi] then
+    local rule = old_rules[ridx]
+    if type(rule) == "string" then
+      mdp[ridx][lo][hi] = s:sub(lo,hi-1) == rule
+      return mdp[ridx][lo][hi]
+    end
+    local ok = false
+    for _,subrule in ipairs(rule) do
+      if #subrule == 1 then
+        if match(s, subrule[1], lo, hi) then
+          ok = true
+          break
+        end
+      elseif #subrule == 2 then
+        for mid=lo, hi do
+          if match(s, subrule[1], lo, mid) and match(s, subrule[2], mid, hi) then
+            ok = true
+            break
+          end
+        end
+      else
+        print(#subrule)
+        error("oh no")
+      end
+    end
+    mdp[ridx][lo][hi] = ok
+  end
+  return mdp[ridx][lo][hi]
+end
+
 local ret = 0
 local ret2 = 0
+local ret3 = 0
 x = io.read("*l")
 while x do
   if re.match(x, rule) then
     ret = ret + 1
   end
-  if match(x) then
+  if match2(x) then
     ret2 = ret2 + 1
   end
+  --[[mdp = {}
+  if match(x, 0, 1, #x+1) then
+    ret3 = ret3 + 1
+  end--]]
+  print(x, ret, ret3)
   x = io.read("*l")
 end
 print(ret)
 print(ret2)
+print(ret3)
